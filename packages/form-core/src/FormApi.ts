@@ -979,12 +979,14 @@ export class FormApi<
 
     try {
       // Run the submit code
-      await this.options.onSubmit?.({ value: this.state.values, formApi: this })
+      const result = await this.options.onSubmit?.({ value: this.state.values, formApi: this })
 
       this.store.batch(() => {
         this.store.setState((prev) => ({ ...prev, isSubmitted: true }))
         done()
       })
+
+      return result
     } catch (err) {
       done()
       throw err
